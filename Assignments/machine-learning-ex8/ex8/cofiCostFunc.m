@@ -40,15 +40,31 @@ Theta_grad = zeros(size(Theta));
 %                     partial derivatives w.r.t. to each element of Theta
 %
 
+    % Loop based solution was written first
 
+      % for i=1:num_movies
+     %    for j=1:num_users
+    %       if R(i,j)==1
+   %          J += 1/2 * ((Theta(j,:)*X(i,:)' - Y(i,j))^2)
+  %         end
+ %        endfor
+%       endfor
 
+    J = 1/2 * sum(sum(((X*Theta'-Y).*R).^2));
 
+    X_grad =  ((X*Theta'-Y).*R)*Theta;    %dimension analysis gives a good idea
+    Theta_grad = ((X*Theta'-Y).*R)' * X;
 
-
-
-
-
-
+    reg_theta =  (lambda*sum(sum(Theta.^2)))/2;
+    reg_x = (lambda*sum(sum(X.^2)))/2;
+    
+    J += reg_theta + reg_x;
+    
+    regx_grad = lambda*X;
+    regx_theta = lambda*Theta;
+    
+    X_grad += regx_grad;
+    Theta_grad += regx_theta;
 
 
 
